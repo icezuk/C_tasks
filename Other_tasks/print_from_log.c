@@ -1,18 +1,42 @@
 #include <stdio.h>
 #include <string.h>
 
-
+void printInput(char strInput[], int bIsHtml, int bIsPlain)
+{
+  if (bIsHtml == 1)
+  {
+    int j = 0;
+    while((strInput[j] != '\n') && (strInput[j] != '\0'))
+    {
+      j++;
+    }
+    if(strInput[j] == '\0')
+    {
+      printf("%s%s", strInput, "<br>");
+    }
+    else
+    {
+      strInput[j] = '\0';
+      printf("%s%s\n", strInput, "<br>");
+    }
+  }
+  else if(bIsPlain == 1)
+  {
+    printf("%s", strInput);
+  }
+}
 
 int main(int argc, char * argv[])
 {
   char strInput[300];
-  strInput[300] = '0';
+  strInput[300] = '\0';
   char strMask[100];
   int iIsBetweenEqual = 0;
   FILE* pinFP;
   unsigned long uliPosition;
   int bIsHtml = 0;
   int bIsPlain = 0;
+  int i, k = 0;
   int bHasFoundArgOne = 0;
   
   snprintf(strMask, 100, "CLIENT_ID...........: %s", argv[1]);
@@ -30,8 +54,6 @@ int main(int argc, char * argv[])
     return -1;
   }
   
-  
-  int i = 3;
   for(i = 3; i < argc; i++)
   {
     pinFP = fopen(argv[i], "r");
@@ -51,58 +73,19 @@ int main(int argc, char * argv[])
       {
       	bHasFoundArgOne = 1;
       	fseek(pinFP,uliPosition,SEEK_SET);
-      	fgets(strInput, 300, pinFP); // strInput is equal to found strMask; put it at start of uliPosition
+      	// strInput is equal to found strMask; put it at start of uliPosition
+      	fgets(strInput, 300, pinFP);
       	do
       	{
-      	  if (bIsHtml == 1)
-      	  {
-      	    int j = 0;
-      	    while((strInput[j] != '\n') && (strInput[j] != '\0'))
-      	    {
-      	      j++;
-      	    }
-      	    if(strInput[j] == '\0')
-      	    {
-      	      printf("%s", strInput);
-            }
-            else
-            {
-      	      strInput[j] = '\0';
-      	      printf("%s%s\n", strInput, "<br>");
-            }
-          }
-          else if(bIsPlain == 1)
-          {
-            printf("%s", strInput);
-          }
+      	  printInput(strInput, bIsHtml, bIsPlain);
         } while((fgets(strInput, 300, pinFP) != NULL) && (feof(pinFP) == 0) &&
                 (strstr(strInput,"============================================================") == NULL));
         
         if(feof(pinFP) != 0)
         {
-          if (bIsHtml == 1)
-      	  {
-      	    int j = 0;
-      	    while((strInput[j] != '\n') && (strInput[j] != '\0'))
-      	    {
-      	      j++;
-      	    }
-      	    if(strInput[j] == '\0')
-      	    {
-      	      printf("%s%s\n", strInput, "<br>");
-            }
-            else
-            {
-      	      strInput[j] = '\0';
-      	      printf("%s%s\n", strInput, "<br>");
-            }
-          }
-          else if(bIsPlain == 1)
-          {
-            printf("%s", strInput);
-          }
+          printInput(strInput, bIsHtml, bIsPlain);
         }
-      	int k = 0;
+        //ungetc to return the start of next block
       	while(strInput[k] != '\n')
       	{
       	  k++;
