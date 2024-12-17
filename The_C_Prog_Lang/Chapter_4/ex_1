@@ -6,7 +6,7 @@ int ggetline(char line[], int max);
 int strrindex(char source[], char searchfor[]);
 
 
-int main()
+int main(void)
 {
   char line[MAXLINE];
   int found = 0;
