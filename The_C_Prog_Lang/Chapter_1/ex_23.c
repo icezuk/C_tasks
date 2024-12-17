@@ -1,4 +1,4 @@
-//needs fix
+//remove comments from file
 #include <stdio.h>
 #include <string.h>
 
