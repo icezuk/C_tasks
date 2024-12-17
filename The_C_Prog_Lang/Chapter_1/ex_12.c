@@ -4,12 +4,15 @@
 #include <string.h>
 
 
-
 void inputString(FILE* fp, size_t len, char* str)
 {
   int i = 0;
   for(i = 0; i < len; i++)
   {
+    if(i >= len)
+    {
+      str = realloc(str, (len * 2) * (sizeof(char)));
+    }
     if(str[i] != ' ' && str[i] != '\n' && str[i] != '\t')
     {
       putchar(str[i]);
@@ -23,24 +26,18 @@ void inputString(FILE* fp, size_t len, char* str)
 }
 
 
-int main(void)
+void inputLogic(int* sizeStr)
 {
   char* inputStr;
   int ch;
-  int sizeStr = 200;
-  
-  inputStr = malloc((sizeStr + 1)*(sizeof(char)));
-  inputStr[sizeStr] = '\0';
+  inputStr = malloc((*sizeStr + 1)*(sizeof(char)));
+  inputStr[*sizeStr] = '\0';
   while(((ch=fgetc(stdin)) != EOF))
   {
     int i = 0;
     ungetc(ch, stdin);
     while(((ch=fgetc(stdin)) != '\n'))
     {
-      if(i >= sizeStr)
-      {
-        inputStr = realloc(inputStr, (sizeStr * 2) * (sizeof(char)));
-      }
       inputStr[i++] = ch;
     }
     inputStr[i] = '\0';
@@ -51,7 +48,13 @@ int main(void)
     }
     inputString(stdin, i, inputStr);
   }
-  
   free(inputStr);
+}
+
+
+int main(void)
+{
+  int sizeStr = 200;
+  inputLogic(&sizeStr);
   return 0;
 }
