@@ -1,4 +1,5 @@
 //remove comments from file
+//location of fpR and fpTemp would depend on local; currently location is set for work env
 #include <stdio.h>
 #include <string.h>
 
