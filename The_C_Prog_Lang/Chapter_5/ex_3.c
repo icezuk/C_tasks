@@ -3,7 +3,7 @@
 #include <stdio.h>
 void strcatt(char *s, char *t)
 {  
-  while(*s++ != '\0')  // find end of s
+  while(*s++)  // find end of s
     ;
   s--;
   while((*s++ = *t++)) //copy t, *s = *t != 0 equiv *s = *t
