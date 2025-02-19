@@ -1,3 +1,8 @@
+/*
+USAGE:
+lr2_dumpgenlog "($CLIENT_ID)" "(html)/(plain)" "($LOG_FILE_1)" "($LOG_FILE_2)" ...
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -75,26 +80,27 @@ int inputLogic(char* argv[], int* bHasFoundArgOne, char strMask[], int* iArgTwo,
      fgets(strInput, 300, pinFP);
      do
      {
-      	printInput(strInput, *iArgTwo);
-      } while((fgets(strInput, 300, pinFP) != NULL) && (feof(pinFP) == 0) &&
+       printInput(strInput, *iArgTwo);
+     } while((fgets(strInput, 300, pinFP) != NULL) && (feof(pinFP) == 0) &&
               (strstr(strInput,"============================================================") == NULL));
         
+      
+      printInput(strInput, *iArgTwo);
       if(feof(pinFP) != 0)
-      {
-        printInput(strInput, *iArgTwo);
-      }
+        printf("\n");
+      
       //ungetc to return the start of next block
-      while(strInput[k] != '\n')
+      /*while(strInput[k] != '\n')
       {
       	k++;
       }
       for( ; k >= 0; k--)
       {
         ungetc(strInput[k], pinFP);
-      }
-      printf("\n\n============================================================\n\n\n");
+      }*/
       iIsBetweenEqual = 0;
     }
+    
   }
   return 0;
 }
